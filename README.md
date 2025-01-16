@@ -1,5 +1,5 @@
 # GPA_calculator
-def calculate_gpa():
+    def calculate_gpa():
     print("=================================================")
     print(" Program: GPA CALCULATOR")
     print("=================================================")
@@ -86,6 +86,6 @@ def calculate_gpa():
     print("=========================================================")
 
 
-# Run the program
-if __name__ == "__main__":
+    # Run the program
+    if __name__ == "__main__":
     calculate_gpa()
