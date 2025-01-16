@@ -1,91 +1,110 @@
-# GPA_calculator
-    def calculate_gpa():
-    print("=================================================")
-    print(" Program: GPA CALCULATOR")
-    print("=================================================")
 
-    # Dynamic size input
-    size = int(input("Enter the number of subjects: "))
-    subjects = []
-    credits = []
-    scores = []
-    grades = []
-    points = []
+   
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        button {
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+    </head>
+    <body>
+    <h1>GPA Calculator</h1>
+    <form id="gpaForm">
+        <div id="subjectInputs">
+            <div>
+                <label>Subject Name: <input type="text" name="subjectName" required></label>
+                <label>Credit Hours: <input type="number" name="creditHours" min="1" max="4" required></label>
+                <label>Score: <input type="number" name="score" min="0" max="100" required></label>
+            </div>
+        </div>
+        <button type="button" onclick="addSubject()">Add Another Subject</button>
+        <button type="button" onclick="calculateGPA()">Calculate GPA</button>
+    </form>
+    <div class="result" id="result"></div>
 
-    # Input details for each subject
-    for i in range(size):
-        print(f"\nEnter details for subject {i + 1}:")
-        subject = input("Name of Subject: ")
-        subjects.append(subject)
+    <script>
+        function addSubject() {
+            const subjectInputs = document.getElementById('subjectInputs');
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <label>Subject Name: <input type="text" name="subjectName" required></label>
+                <label>Credit Hours: <input type="number" name="creditHours" min="1" max="4" required></label>
+                <label>Score: <input type="number" name="score" min="0" max="100" required></label>
+            `;
+            subjectInputs.appendChild(div);
+        }
 
-        while True:
-            credit = int(input("Credit Hours (1-4): "))
-            if 1 <= credit <= 4:
-                credits.append(credit)
-                break
-            else:
-                print("Invalid credit hours! Enter between 1-4.")
+        function calculateGPA() {
+            const form = document.getElementById('gpaForm');
+            const subjectNames = form.querySelectorAll('input[name="subjectName"]');
+            const creditHours = form.querySelectorAll('input[name="creditHours"]');
+            const scores = form.querySelectorAll('input[name="score"]');
+            let totalQualityPoints = 0;
+            let totalCredits = 0;
 
-        while True:
-            score = float(input("Total Score (0-100): "))
-            if 0 <= score <= 100:
-                scores.append(score)
-                break
-            else:
-                print("Invalid score! Please enter between 0-100.")
+            for (let i = 0; i < subjectNames.length; i++) {
+                const score = parseFloat(scores[i].value);
+                const credits = parseInt(creditHours[i].value);
+                let gradePoint = 0;
 
-    # Determine grades and points
-    for score in scores:
-        if score >= 80:
-            grades.append("A")
-            points.append(4.0)
-        elif score >= 75:
-            grades.append("A-")
-            points.append(3.7)
-        elif score >= 70:
-            grades.append("B+")
-            points.append(3.3)
-        elif score >= 65:
-            grades.append("B")
-            points.append(3.0)
-        elif score >= 60:
-            grades.append("B-")
-            points.append(2.7)
-        elif score >= 55:
-            grades.append("C+")
-            points.append(2.3)
-        elif score >= 50:
-            grades.append("C")
-            points.append(2.0)
-        elif score >= 47:
-            grades.append("C-")
-            points.append(1.7)
-        elif score >= 44:
-            grades.append("D+")
-            points.append(1.3)
-        elif score >= 40:
-            grades.append("D")
-            points.append(1.0)
-        else:
-            grades.append("E")
-            points.append(0.0)
+                if (score >= 80) gradePoint = 4.0;
+                else if (score >= 75) gradePoint = 3.7;
+                else if (score >= 70) gradePoint = 3.3;
+                else if (score >= 65) gradePoint = 3.0;
+                else if (score >= 60) gradePoint = 2.7;
+                else if (score >= 55) gradePoint = 2.3;
+                else if (score >= 50) gradePoint = 2.0;
+                else if (score >= 47) gradePoint = 1.7;
+                else if (score >= 44) gradePoint = 1.3;
+                else if (score >= 40) gradePoint = 1.0;
+                else gradePoint = 0.0;
 
-    # GPA Calculation
-    total_quality_points = sum([points[i] * credits[i] for i in range(size)])
-    total_credits = sum(credits)
-    gpa = total_quality_points / total_credits
+                totalQualityPoints += gradePoint * credits;
+                totalCredits += credits;
+            }
 
-    # Display Results
-    print("\n=========================================================")
-    print("INDEX  SUBJECT         CREDIT  SCORE  GRADE  POINT")
-    print("=========================================================")
-    for i in range(size):
-        print(f"{i + 1:<6} {subjects[i]:<15} {credits[i]:<7} {scores[i]:<6} {grades[i]:<6} {points[i]:.2f}")
-    print("=========================================================")
-    print(f"Your GPA for this semester: {gpa:.2f}")
-    print("=========================================================")
-
-
-    # Run the program
-    if __name__ == "__main__":
-    calculate_gpa()
+            const gpa = totalQualityPoints / totalCredits;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p>Total Quality Points: ${totalQualityPoints.toFixed(2)}</p>
+                <p>Total Credits: ${totalCredits}</p>
+                <p>Your GPA: ${gpa.toFixed(2)}</p>
+            `;
+        }
+    </script>
+    </body>
+    </html>
